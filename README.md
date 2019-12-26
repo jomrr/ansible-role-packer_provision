@@ -18,7 +18,7 @@ Variables and defaults for this role:
 
 | variable | default value in defaults/main.yml | description |
 | -------- | ---------------------------------- | ----------- |
-| packer_builder_type | 'virtualbox-iso' | emulates packer variable for molecule default test, see <https://www.packer.io/docs/builders/virtualbox-iso.html> |
+| packer_builder_type | 'virtualbox-iso' | emulates packer variable for molecule default test, see [docs](https://www.packer.io/docs/provisioners/ansible.html#default-extra-variables) |
 
 ## Dependencies
 
