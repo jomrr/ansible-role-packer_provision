@@ -33,6 +33,7 @@
 
 - include_tasks: virtualbox.yml
   when: virtualbox_version_file.stat.exists
+    and packer_builder_type == "virtualbox-iso"
 
 - name: "Configure SSH daemon"
   lineinfile:
