@@ -18,7 +18,7 @@ Variables and defaults for this role:
 
 | variable | default value in defaults/main.yml | description |
 | -------- | ---------------------------------- | ----------- |
-| packer_provision_enabled | False | determine whether role is enabled (True) or not (False) |
+| packer_builder_type | 'virtualbox-iso' | emulates packer variable for molecule default test, see <https://www.packer.io/docs/builders/virtualbox-iso.html> |
 
 ## Dependencies
 
