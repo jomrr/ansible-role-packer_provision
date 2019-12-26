@@ -5,3 +5,6 @@
 # variable normally supplied by packer provisioner ansible
 # see https://www.packer.io/docs/provisioners/ansible.html#default-extra-variables
 packer_builder_type: virtualbox-iso
+
+# set to true when building a public box for vagrant cloud
+packer_provision_vagrant: False

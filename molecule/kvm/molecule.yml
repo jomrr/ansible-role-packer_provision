@@ -36,7 +36,7 @@ provisioner:
   inventory:
     group_vars:
       all:
-        packer_provision_enabled: True
+        packer_provision_vagrant: True
 scenario:
   name: kvm
 verifier:

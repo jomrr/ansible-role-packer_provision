@@ -42,10 +42,10 @@ provisioner:
   playbooks:
     prepare: prepare.yml
     converge: ../shared/playbook.yml
-    # inventory:
-    #   group_vars:
-    #     all:
-    #       packer_provision_enabled: True
+    inventory:
+      group_vars:
+        all:
+          packer_provision_vagrant: True
 scenario:
   name: default
 verifier:

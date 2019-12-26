@@ -2,6 +2,16 @@
 # role: ansible-role-packer-provision
 # file: tasks/vagrant.yml
 
+- name: "Add vagrant sudoers.d file"
+  lineinfile:
+    path: /etc/sudoers.d/vagrant
+    regexp: '^vagrant'
+    line: "vagrant  ALL=(ALL)   NOPASSWD:ALL"
+    owner: root
+    group: root
+    mode: 0440
+    validate: /usr/sbin/visudo -cf %s
+
 - name: "Create vagrant .ssh directory"
   file:
     path: /home/vagrant/.ssh
