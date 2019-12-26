@@ -1,0 +1,21 @@
+---
+# role: ansible-role-packer-provision
+# file: vars/RedHat.yml
+
+packer_provision_commands:
+  - "yum -y install kernel-devel-$(uname -r)"
+
+packer_provision_commands_clean: []
+
+packer_provision_packages:
+  - wget
+  - perl
+  - cpp
+  - gcc
+  - make
+  - bzip2
+  - kernel-headers
+  - kernel-devel
+  - python-libselinux
+  - elfutils-libelf-devel
+  - cifs-utils

@@ -1,0 +1,92 @@
+---
+# role: ansible-role-packer-provision
+# file: tasks/main.yml
+
+- name: "Set os_family dependent variables"
+  include_vars: '{{ ansible_os_family }}.yml'
+
+- name: "Set distribution dependent variables"
+  include_vars: '{{ vars_file }}'
+  with_first_found:
+    - files:
+        - '{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml'
+        - '{{ ansible_distribution }}.yml'
+        - '{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml'
+      skip: true
+  loop_control:
+    loop_var: vars_file
+
+- name: "Run provision commands"
+  shell: "{{ item }}"
+  loop: "{{ packer_provision_commands | default([], True) }}"
+  tags: ['skip_ansible_lint']
+
+- name: "Install packages for ansible-role-packer-provision"
+  package:
+    name: "{{ packer_provision_packages }}"
+    state: present
+
+- name: Check if VirtualBox is running the guest VM.
+  stat:
+    path: "/home/{{ ansible_ssh_user }}/.vbox_version"
+  register: virtualbox_version_file
+
+- include_tasks: virtualbox.yml
+  when: virtualbox_version_file.stat.exists
+
+- name: "Configure SSH daemon"
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+  loop:
+    - regexp: '^UseDNS'
+      line: 'UseDNS no'
+    - regexp: '^GSSAPIAuthentication'
+      line: 'GSSAPIAuthentication no'
+
+- name: "Configure mount points"
+  mount:
+    path: "{{ item.mount }}"
+    src: "UUID={{ item.uuid }}"
+    fstype: "ext4"
+    opts: "defaults,discard,noatime"
+    state: "present"
+  register: mounts_changed
+  loop: "{{ ansible_mounts }}"
+  when: "item.fstype == 'ext4'"
+
+- name: "Reboot immediately"
+  shell: "sleep 5 && reboot"
+  async: 1
+  poll: 0
+  when: mounts_changed is changed
+
+- name: "Wait for the reboot to complete"
+  wait_for_connection:
+    connect_timeout: 20
+    sleep: 5
+    delay: 5
+    timeout: 300
+  when: mounts_changed is changed
+
+- name: "Remove unwanted packages"
+  package: 
+    name: "{{ packer_provision_packages_clean | default([], True) }}"
+    state: absent
+
+- name: "Run cleanup commands"
+  shell: "{{ item }}"
+  loop: "{{ packer_provision_commands_clean | default([], True) }}"
+  tags: ['skip_ansible_lint']
+
+- name: "Clear machine-id"
+  file:
+    path: /etc/machine-id
+    state: absent
+
+- name: "Touch machine-id"
+  file:
+    path: /etc/machine-id
+    state: touch

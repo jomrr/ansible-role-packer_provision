@@ -1,0 +1,7 @@
+---
+# role: ansible-role-packer-provision
+# file: defaults/main.yml
+
+# variable normally supplied by packer provisioner ansible
+# see https://www.packer.io/docs/provisioners/ansible.html#default-extra-variables
+packer_builder_type: virtualbox-iso

@@ -1,0 +1,28 @@
+---
+# role: ansible-role-packer-provision
+# file: vars/Debian.yml
+
+packer_provision_commands:
+  - "apt-get -y install linux-headers-$(uname -r)"
+
+packer_provision_commands_clean:
+  - "apt-get -y remove '.*-dev$'"
+  - "apt-get -y autoremove"
+  - "apt-get -y clean"
+
+packer_provision_packages: []
+
+packer_provision_packages_remove:
+  - ppp
+  - pppconfig
+  - pppoeconf
+  - cpp
+  - gcc
+  - g++
+  - libx11-data
+  - xauth
+  - libxmuu1
+  - libxcb1
+  - libx11-6
+  - libxext6
+  - linux-source

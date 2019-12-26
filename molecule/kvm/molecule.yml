@@ -1,0 +1,51 @@
+---
+# role: ansible-role-packer-provision
+# file: molecule/kvm/molecule.yml
+
+dependency:
+  name: galaxy
+driver:
+  name: vagrant
+  provider:
+    name: libvirt
+    type: libvirt
+    options:
+      memory: 1024
+      cpus: 1
+lint:
+  name: yamllint
+  options:
+    config-file: molecule/shared/yamllint.yml
+platforms:
+  - name: packer_provision-arch
+    box: "archlinux/archlinux"
+  - name: packer_provision-centos8
+    box: "centos/8"
+  - name: packer_provision-debian10
+    box: "debian/buster64"
+  - name: packer_provision-ubuntu1804
+    box: "generic/ubuntu1804"
+provisioner:
+  name: ansible
+  log: True
+  lint:
+    name: ansible-lint
+  playbooks:
+    prepare: prepare.yml
+    converge: ../shared/playbook.yml
+  inventory:
+    group_vars:
+      all:
+        packer_provision_enabled: True
+scenario:
+  name: kvm
+verifier:
+  name: testinfra
+  env:
+    PYTHONWARNINGS: "ignore"
+  directory: ../tests
+  options:
+    v: True
+    sudo: True
+  lint:
+    name: flake8
