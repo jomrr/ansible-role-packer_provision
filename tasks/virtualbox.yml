@@ -13,7 +13,7 @@
     state: directory
     mode: 0755
 
-- name: Mount VirtualBox guest additions ISO.
+- name: "Mount VirtualBox guest additions ISO"
   mount:
     name: "/mnt/vbox"
     src: "/home/{{ ansible_ssh_user }}/VBoxGuestAdditions_{{ virtualbox_version.stdout }}.iso"
@@ -21,17 +21,17 @@
     state: mounted
     fstype: iso9660
 
-- name: Run VirtualBox guest additions installation.
+- name: "Run VirtualBox guest additions installation"
   shell: sh /mnt/vbox/VBoxLinuxAdditions.run
   failed_when: false
   tags: ['skip_ansible_lint']
 
-- name: Unmount VirtualBox guest additions ISO.
+- name: "Unmount VirtualBox guest additions ISO"
   mount:
     name: "/mnt/vbox"
     state: absent
 
-- name: Delete VirtualBox guest additions ISO.
+- name: "Delete VirtualBox guest additions ISO and mount point"
   file:
     path: "{{ item }}"
     state: absent

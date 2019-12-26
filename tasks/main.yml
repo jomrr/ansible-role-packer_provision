@@ -72,7 +72,7 @@
   when: mounts_changed is changed
 
 - name: "Remove unwanted packages"
-  package: 
+  package:
     name: "{{ packer_provision_packages_clean | default([], True) }}"
     state: absent
 
