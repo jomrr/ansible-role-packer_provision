@@ -19,8 +19,11 @@
 
 - name: "Set swappiness to zero"
   lineinfile:
-    path: "/etc/sudoers.d/99-swappiness"
+    path: "/etc/sysctl.d/99-swappiness.conf"
     regexp: "^vm.swappiness"
     line: "vm.swappiness=0"
+    owner: root
+    group: root
+    mode: 0644
     create: yes
     state: present
