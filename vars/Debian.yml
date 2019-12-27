@@ -10,7 +10,14 @@ packer_provision_commands_clean:
   - "apt-get -y autoremove"
   - "apt-get -y clean"
 
-packer_provision_packages: []
+packer_provision_packages:
+  - build-essential 
+  - cryptsetup
+  - dkms
+  - libreadline-dev
+  - libssl-dev
+  - software-properties-common
+  - zlib1g-dev
 
 packer_provision_packages_remove:
   - ppp
