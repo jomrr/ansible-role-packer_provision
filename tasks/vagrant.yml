@@ -10,6 +10,8 @@
     owner: root
     group: root
     mode: 0440
+    create: yes
+    state: present
     validate: /usr/sbin/visudo -cf %s
 
 - name: "Create vagrant .ssh directory"
