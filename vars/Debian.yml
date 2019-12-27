@@ -11,21 +11,20 @@ packer_provision_commands_clean:
   - "apt-get -y clean"
 
 packer_provision_packages:
-  - build-essential 
+  - build-essential
   - cryptsetup
   - dkms
   - libreadline-dev
   - libssl-dev
+  - screen
   - software-properties-common
+  - vim
   - zlib1g-dev
 
 packer_provision_packages_remove:
   - ppp
   - pppconfig
   - pppoeconf
-  - cpp
-  - gcc
-  - g++
   - libx11-data
   - xauth
   - libxmuu1

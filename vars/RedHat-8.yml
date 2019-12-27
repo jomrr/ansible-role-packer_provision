@@ -3,14 +3,16 @@
 # file: vars/RedHat-8.yml
 
 packer_provision_packages:
-  - wget
-  - perl
-  - cpp
-  - gcc
-  - make
   - bzip2
-  - kernel-headers
-  - kernel-devel
-  - python3-libselinux
-  - elfutils-libelf-devel
   - cifs-utils
+  - cpp
+  - elfutils-libelf-devel
+  - gcc
+  - kernel-devel
+  - kernel-headers
+  - make
+  - perl
+  - python3-libselinux
+  - screen
+  - vim
+  - wget

@@ -1,0 +1,26 @@
+---
+# role: ansible-role-packer-provision
+# file: tasks/swap.yml
+
+- name: "Disable all swap files"
+  shell: "swapoff -a"
+  tags: ['skip_ansible_lint']
+
+- name: "Delete swap file"
+  file:
+    path: "/swapfile"
+    state: absent
+
+- name: "Remove swap entry from fstab"
+  lineinfile:
+    path: "/etc/fstab"
+    regexp: "^.*swapfile.*$"
+    state: absent
+
+- name: "Set swappiness to zero"
+  lineinfile:
+    path: "/etc/sudoers.d/99-swappiness"
+    regexp: "^vm.swappiness"
+    line: "vm.swappiness=0"
+    create: yes
+    state: present

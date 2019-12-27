@@ -9,14 +9,17 @@ packer_provision_commands_clean:
   - "{{ ansible_pkg_mgr }} -y clean all"
 
 packer_provision_packages:
-  - wget
-  - perl
-  - cpp
-  - gcc
-  - make
   - bzip2
-  - kernel-headers
-  - kernel-devel
-  - python-libselinux
-  - elfutils-libelf-devel
   - cifs-utils
+  - cpp
+  - elfutils-libelf-devel
+  - gcc
+  - kernel-devel
+  - kernel-headers
+  - make
+  - perl
+  - python-libselinux
+  - screen
+  - vim
+  - wget
+  
