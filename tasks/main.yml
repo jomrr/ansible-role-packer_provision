@@ -27,16 +27,10 @@
     state: present
 
 - include_tasks: vagrant.yml
-  when: packer_provision_vagrant | bool
-
-- name: Check if VirtualBox is running the guest VM.
-  stat:
-    path: "/home/{{ ansible_ssh_user }}/.vbox_version"
-  register: virtualbox_version_file
+  when: ansible_ssh_user == "vagrant"
 
 - include_tasks: virtualbox.yml
-  when: virtualbox_version_file.stat.exists
-    and packer_builder_type == "virtualbox-iso"
+  when: packer_builder_type == "virtualbox-iso"
 
 - name: "Configure SSH daemon"
   lineinfile:

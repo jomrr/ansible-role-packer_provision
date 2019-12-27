@@ -3,9 +3,10 @@
 # file: vars/RedHat.yml
 
 packer_provision_commands:
-  - "yum -y install kernel-devel-$(uname -r)"
+  - "{{ ansible_pkg_mgr }} -y install kernel-devel-$(uname -r)"
 
-packer_provision_commands_clean: []
+packer_provision_commands_clean:
+  - "{{ ansible_pkg_mgr }} -y clean all"
 
 packer_provision_packages:
   - wget
