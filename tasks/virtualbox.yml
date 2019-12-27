@@ -3,7 +3,7 @@
 # file: tasks/virtualbox.yml
 
 - name: "Get VirtualBox version"
-  shell: "cat /home/{{ ansible_ssh_user }}/.vbox_version"
+  shell: "cat /home/{{ ansible_user }}/.vbox_version"
   register: virtualbox_version
   tags: ['skip_ansible_lint']
 
@@ -16,7 +16,7 @@
 - name: "Mount VirtualBox guest additions ISO"
   mount:
     name: "/mnt/vbox"
-    src: "/home/{{ ansible_ssh_user }}/VBoxGuestAdditions_{{ virtualbox_version.stdout }}.iso"
+    src: "/home/{{ ansible_user }}/VBoxGuestAdditions_{{ virtualbox_version.stdout }}.iso"
     opts: loop
     state: mounted
     fstype: iso9660
@@ -36,5 +36,5 @@
     path: "{{ item }}"
     state: absent
   loop:
-    - "/home/{{ ansible_ssh_user }}/VBoxGuestAdditions_{{ virtualbox_version.stdout }}.iso"
+    - "/home/{{ ansible_user }}/VBoxGuestAdditions_{{ virtualbox_version.stdout }}.iso"
     - "/mnt/vbox"
