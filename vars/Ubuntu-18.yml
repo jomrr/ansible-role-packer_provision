@@ -36,11 +36,20 @@ packer_provision_packages_clean:
   - libreoffice-style-elementary
   - libreoffice-style-tango
   - libreoffice-writer
+  - libx11-6
+  - libx11-data
+  - libxcb1
+  - libxext6
+  - libxmuu1
+  - linux-source
   - parole
   - pidgin
   - pidgin-data
   - pidgin-libnotify
   - pidgin-otr
+  - ppp
+  - pppconfig
+  - pppoeconf
   - remmina
   - rhythmbox
   - sgt-launcher
@@ -57,4 +66,5 @@ packer_provision_packages_clean:
   - transmission-gtk
   - ubuntu-web-launchers
   - whoopsie
+  - xauth
   - xfburn

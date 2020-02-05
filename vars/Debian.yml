@@ -21,7 +21,7 @@ packer_provision_packages:
   - vim
   - zlib1g-dev
 
-packer_provision_packages_remove:
+packer_provision_packages_clean:
   - ppp
   - pppconfig
   - pppoeconf
