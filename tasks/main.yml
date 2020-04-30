@@ -18,7 +18,8 @@
 
 - name: "Run provision commands"
   shell: "{{ item }}"
-  loop: "{{ packer_provision_commands | default([], True) }}"
+  loop: "{{ packer_provision_commands | d([], True) }}"
+  changed_when: False
   tags: ['skip_ansible_lint']
 
 - name: "Install packages for ansible-role-packer-provision"
@@ -26,9 +27,8 @@
     name: "{{ packer_provision_packages }}"
     state: present
 
-- name: "Include tasks for vagrant user"
-  include_tasks: vagrant.yml
-  when: ansible_ssh_user == "vagrant"
+- name: "Include tasks for {{ ansible_ssh_user }} user"
+  include_tasks: user.yml
 
 - name: "Include tasks for removing swap files"
   include_tasks: swap.yml
@@ -51,12 +51,13 @@
 
 - name: "Remove unwanted packages"
   package:
-    name: "{{ packer_provision_packages_clean | default([], True) }}"
+    name: "{{ packer_provision_packages_clean | d([], True) }}"
     state: absent
 
 - name: "Run cleanup commands"
   shell: "{{ item }}"
-  loop: "{{ packer_provision_commands_clean | default([], True) }}"
+  loop: "{{ packer_provision_commands_clean | d([], True) }}"
+  changed_when: False
   tags: ['skip_ansible_lint']
 
 - name: "Clear machine-id"

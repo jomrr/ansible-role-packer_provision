@@ -2,11 +2,11 @@
 # role: ansible-role-packer-provision
 # file: tasks/vagrant.yml
 
-- name: "Add vagrant sudoers.d file"
+- name: "Add {{ ansible_ssh_user }} sudoers.d file"
   lineinfile:
-    path: /etc/sudoers.d/vagrant
-    regexp: '^vagrant'
-    line: "vagrant  ALL=(ALL)   NOPASSWD:ALL"
+    path: "/etc/sudoers.d/{{ ansible_ssh_user }}"
+    regexp: '^{{ ansible_ssh_user }}'
+    line: "{{ ansible_ssh_user }}  ALL=(ALL)   NOPASSWD:ALL"
     owner: root
     group: root
     mode: 0440
@@ -14,18 +14,19 @@
     state: present
     validate: /usr/sbin/visudo -cf %s
 
-- name: "Create vagrant .ssh directory"
+- name: "Create {{ ansible_ssh_user }} .ssh directory"
   file:
-    path: /home/vagrant/.ssh
+    path: "/home/{{ ansible_ssh_user }}/.ssh"
     state: directory
     owner: vagrant
     group: vagrant
     mode: 0700
 
-- name: "Get vagrant public key"
+- name: "Get {{ ansible_ssh_user }} public key"
   get_url:
     url: https://github.com/mitchellh/vagrant/raw/master/keys/vagrant.pub
     dest: /home/vagrant/.ssh/authorized_keys
     owner: vagrant
     group: vagrant
     mode: 0600
+  when: ansible_ssh_user == "vagrant"

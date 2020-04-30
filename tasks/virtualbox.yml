@@ -23,7 +23,7 @@
 
 - name: "Run VirtualBox guest additions installation"
   shell: sh /mnt/vbox/VBoxLinuxAdditions.run
-  failed_when: false
+  creates: /usr/bin/VBoxClient
   tags: ['skip_ansible_lint']
 
 - name: "Unmount VirtualBox guest additions ISO"

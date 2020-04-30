@@ -4,6 +4,7 @@
 
 - name: "Disable all swap files"
   shell: "swapoff -a"
+  changed_when: False
   tags: ['skip_ansible_lint']
 
 - name: "Delete swap file"
