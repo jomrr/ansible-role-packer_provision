@@ -49,31 +49,6 @@
     - regexp: '^GSSAPIAuthentication'
       line: 'GSSAPIAuthentication no'
 
-- name: "Configure mount points"
-  mount:
-    path: "{{ item.mount }}"
-    src: "UUID={{ item.uuid }}"
-    fstype: "ext4"
-    opts: "defaults,discard,noatime"
-    state: "present"
-  register: mounts_changed
-  loop: "{{ ansible_mounts }}"
-  when: "item.fstype == 'ext4'"
-
-- name: "Reboot immediately"
-  shell: "sleep 5 && reboot"
-  async: 1
-  poll: 0
-  when: mounts_changed is changed
-
-- name: "Wait for the reboot to complete"
-  wait_for_connection:
-    connect_timeout: 20
-    sleep: 5
-    delay: 5
-    timeout: 300
-  when: mounts_changed is changed
-
 - name: "Remove unwanted packages"
   package:
     name: "{{ packer_provision_packages_clean | default([], True) }}"
