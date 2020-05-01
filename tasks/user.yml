@@ -22,7 +22,7 @@
     group: vagrant
     mode: 0700
 
-- name: "Get {{ ansible_ssh_user }} public key"
+- name: "Add vagrant public key"
   get_url:
     url: https://github.com/mitchellh/vagrant/raw/master/keys/vagrant.pub
     dest: /home/vagrant/.ssh/authorized_keys
@@ -30,3 +30,10 @@
     group: vagrant
     mode: 0600
   when: ansible_ssh_user == "vagrant"
+
+- name: "Add {{ ansible_ssh_user }} public key"
+  authorized_key:
+    user: "{{ ansible_ssh_user }}"
+    key: "{{ lookup('file', '~/.ssh/id_ed25519.pub') }}"
+    state: present
+  when: ansible_ssh_user != "vagrant"
