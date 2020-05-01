@@ -23,12 +23,11 @@
     mode: 0700
 
 - name: "Add vagrant public key"
-  get_url:
-    url: https://github.com/mitchellh/vagrant/raw/master/keys/vagrant.pub
-    dest: /home/vagrant/.ssh/authorized_keys
-    owner: vagrant
-    group: vagrant
-    mode: 0600
+  authorized_key:
+    user: "{{ ansible_ssh_user }}"
+    key: https://github.com/mitchellh/vagrant/raw/master/keys/vagrant.pub
+    state: present
+    exclusive: no
   when: ansible_ssh_user == "vagrant"
 
 - name: "Add {{ ansible_ssh_user }} public key"
@@ -36,4 +35,5 @@
     user: "{{ ansible_ssh_user }}"
     key: "{{ lookup('file', '~/.ssh/id_ed25519.pub') }}"
     state: present
+    exclusive: no
   when: ansible_ssh_user != "vagrant"

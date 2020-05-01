@@ -33,10 +33,6 @@
 - name: "Include tasks for removing swap files"
   include_tasks: swap.yml
 
-- name: "Include tasks for VirtualBox guest utilites if inside Virtualbox VM"
-  include_tasks: virtualbox.yml
-  when: packer_builder_type == "virtualbox-iso"
-
 - name: "Configure SSH daemon"
   lineinfile:
     dest: /etc/ssh/sshd_config

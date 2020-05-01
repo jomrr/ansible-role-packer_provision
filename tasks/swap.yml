@@ -3,9 +3,9 @@
 # file: tasks/swap.yml
 
 - name: "Disable all swap files"
-  shell: "swapoff -a"
+  command: "swapoff -a"
   changed_when: False
-  tags: ['skip_ansible_lint']
+  when: ansible_swaptotal_mb > 0
 
 - name: "Delete swap file"
   file:
@@ -13,10 +13,11 @@
     state: absent
 
 - name: "Remove swap entry from fstab"
-  lineinfile:
-    path: "/etc/fstab"
-    regexp: "^.*swapfile.*$"
+  mount:
+    path: "{{ item.mount }}"
     state: absent
+  loop: "{{ ansible_mounts }}"
+  when: item.fstype == "swap"
 
 - name: "Set swappiness to zero"
   lineinfile:
