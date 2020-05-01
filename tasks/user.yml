@@ -18,8 +18,8 @@
   file:
     path: "/home/{{ ansible_ssh_user }}/.ssh"
     state: directory
-    owner: vagrant
-    group: vagrant
+    owner: "{{ ansible_ssh_user }}"
+    group: "{{ ansible_ssh_user }}"
     mode: 0700
 
 - name: "Add vagrant public key"
