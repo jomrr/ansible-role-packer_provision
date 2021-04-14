@@ -3,10 +3,10 @@
 # file: tasks/main.yml
 
 - name: "Set os_family dependent variables"
-  include_vars: '{{ ansible_os_family }}.yml'
+  ansible.builtin.include_vars: '{{ ansible_os_family }}.yml'
 
 - name: "Set distribution dependent variables"
-  include_vars: '{{ vars_file }}'
+  ansible.builtin.include_vars: '{{ vars_file }}'
   with_first_found:
     - files:
         - '{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml'
@@ -17,24 +17,24 @@
     loop_var: vars_file
 
 - name: "Run provision commands"
-  shell: "{{ item }}"
-  loop: "{{ packer_provision_commands | d([], True) }}"
-  changed_when: False
+  ansible.builtin.shell: "{{ item }}"
+  loop: "{{ packer_provision_commands | d([], true) }}"
+  changed_when: false
   tags: ['skip_ansible_lint']
 
 - name: "Install packages for ansible-role-packer-provision"
-  package:
+  ansible.builtin.package:
     name: "{{ packer_provision_packages }}"
     state: present
 
 - name: "Include tasks for {{ ansible_ssh_user }} user"
-  include_tasks: user.yml
+  ansible.builtin.include_tasks: user.yml
 
 - name: "Include tasks for removing swap files"
-  include_tasks: swap.yml
+  ansible.builtin.include_tasks: swap.yml
 
 - name: "Configure SSH daemon"
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/ssh/sshd_config
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
@@ -46,22 +46,22 @@
       line: 'GSSAPIAuthentication no'
 
 - name: "Remove unwanted packages"
-  package:
-    name: "{{ packer_provision_packages_clean | d([], True) }}"
+  ansible.builtin.package:
+    name: "{{ packer_provision_packages_clean | d([], true) }}"
     state: absent
 
 - name: "Run cleanup commands"
-  shell: "{{ item }}"
-  loop: "{{ packer_provision_commands_clean | d([], True) }}"
-  changed_when: False
+  ansible.builtin.shell: "{{ item }}"
+  loop: "{{ packer_provision_commands_clean | d([], true) }}"
+  changed_when: false
   tags: ['skip_ansible_lint']
 
 - name: "Clear machine-id"
-  file:
+  ansible.builtin.file:
     path: /etc/machine-id
     state: absent
 
 - name: "Touch machine-id"
-  file:
+  ansible.builtin.file:
     path: /etc/machine-id
     state: touch

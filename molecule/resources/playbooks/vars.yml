@@ -2,5 +2,5 @@
 # role: ansible-role-packer-provision
 # file: molecule/resources/playbooks/vars.yml
 
-common_role_enabled: True
-packer_provision_role_enabled: True
+common_role_enabled: true
+packer_provision_role_enabled: true

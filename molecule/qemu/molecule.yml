@@ -18,21 +18,20 @@ lint: |
   set -e
   yamllint .
   ansible-lint
-  flake8
 platforms:
   - name: packer-provision-arch
     box: "archlinux/archlinux"
   - name: packer-provision-centos8
     box: "centos/8"
-  - name: packer-provision-debian10
-    box: "debian/buster64"
-  - name: packer-provision-fedora31
-    box: "fedora/31-cloud-base"
-  - name: packer-provision-ubuntu1804
-    box: "generic/ubuntu1804"
+  - name: packer-provision-debian11
+    box: "debian/bullseye64"
+  - name: packer-provision-fedora33
+    box: "fedora/33-cloud-base"
+  - name: packer-provision-ubuntu2004
+    box: "generic/ubuntu2004"
 provisioner:
   name: ansible
-  log: True
+  log: true
   playbooks:
     prepare: ../resources/playbooks/prepare.yml
     converge: ../resources/playbooks/converge.yml
@@ -41,10 +40,4 @@ provisioner:
       all:
         packer_builder_type: "qemu"
 verifier:
-  name: testinfra
-  env:
-    PYTHONWARNINGS: "ignore"
-  directory: ../resources/tests
-  options:
-    v: True
-    sudo: True
+  name: ansible

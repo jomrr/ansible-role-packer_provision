@@ -3,7 +3,7 @@
 # file: meta/main.yml
 
 galaxy_info:
-  role_name: ansible-role-packer-provision
+  role_name: packer-provision
   author: jam82
   description: Ansible role for setting up packer-provision.
   company: ''

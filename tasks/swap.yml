@@ -3,29 +3,27 @@
 # file: tasks/swap.yml
 
 - name: "Disable all swap files"
-  command: "swapoff -a"
-  changed_when: False
+  ansible.builtin.command: "swapoff -a"
+  changed_when: false
   when: ansible_swaptotal_mb > 0
 
 - name: "Delete swap file"
-  file:
+  ansible.builtin.file:
     path: "/swapfile"
     state: absent
 
 - name: "Remove swap entry from fstab"
-  mount:
+  ansible.posix.mount:
     path: "{{ item.mount }}"
     state: absent
   loop: "{{ ansible_mounts }}"
   when: item.fstype == "swap"
 
 - name: "Set swappiness to zero"
-  lineinfile:
-    path: "/etc/sysctl.d/99-swappiness.conf"
-    regexp: "^vm.swappiness"
-    line: "vm.swappiness=0"
-    owner: root
-    group: root
-    mode: 0644
-    create: yes
+  ansible.posix.sysctl:
+    name: vm.swappiness
+    value: '0'
+    reload: yes
     state: present
+    sysctl_set: yes
+    sysctl_file: "/etc/sysctl.d/99-swappiness.conf"
