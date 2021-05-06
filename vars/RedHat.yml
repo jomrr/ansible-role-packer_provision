@@ -22,4 +22,3 @@ packer_provision_packages:
   - screen
   - vim
   - wget
-  

@@ -10,7 +10,7 @@
     owner: root
     group: root
     mode: 0440
-    create: yes
+    create: true
     state: present
     validate: /usr/sbin/visudo -cf %s
 
@@ -22,18 +22,10 @@
     group: "{{ ansible_ssh_user }}"
     mode: 0700
 
-- name: "Add vagrant public key"
+- name: "Add ssh public key(s)"
   ansible.posix.authorized_key:
     user: "{{ ansible_ssh_user }}"
-    key: https://github.com/mitchellh/vagrant/raw/master/keys/vagrant.pub
+    key: "{{ packer_provision_ssh_key }}"
     state: present
-    exclusive: no
-  when: ansible_ssh_user == "vagrant"
-
-- name: "Add {{ ansible_ssh_user }} public key"
-  ansible.posix.authorized_key:
-    user: "{{ ansible_ssh_user }}"
-    key: "{{ lookup('file', '~/.ssh/id_ed25519.pub') }}"
-    state: present
-    exclusive: no
-  when: ansible_ssh_user != "vagrant"
+    exclusive: false
+  loop: "{{ packer_provision_ssh_keys }}"

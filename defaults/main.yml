@@ -5,3 +5,8 @@
 # variable normally supplied by packer provisioner ansible
 # see https://www.packer.io/docs/provisioners/ansible.html#default-extra-variables
 packer_builder_type: virtualbox-iso
+
+# the ssh public key to deploy, defaults to standard vagrant pubkey.
+packer_provision_ssh_keys:
+  - https://github.com/mitchellh/vagrant/raw/master/keys/vagrant.pub
+#  - "{{ lookup('file', '~/.ssh/id_ed25519.pub') }}"
