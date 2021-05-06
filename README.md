@@ -4,12 +4,12 @@
 
 ## Supported Platforms
 
-- Alpine 3.11
+- Alpine
 - Archlinux
-- CentOS 8
-- Debian 9, 10
-- Fedora 31
-- Ubuntu 18.04, 20.04
+- CentOS
+- Debian
+- Fedora
+- Ubuntu
 
 ## Requirements
 
@@ -20,6 +20,7 @@ Ansible 2.9 or higher is recommended.
 | variable | default value in defaults/main.yml | description |
 | -------- | ---------------------------------- | ----------- |
 | packer_builder_type | 'virtualbox-iso' | packer internal variable for builder type, see [docs](https://www.packer.io/docs/provisioners/ansible.html#default-extra-variables) |
+| packer_provision_ssh_keys | ['https://github.com/mitchellh/vagrant/raw/master/keys/vagrant.pub'] | List of ssh keys added to box. |
 
 ## Dependencies
 
