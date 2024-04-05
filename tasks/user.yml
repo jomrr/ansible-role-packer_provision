@@ -2,25 +2,25 @@
 # role: ansible-role-packer-provision
 # file: tasks/vagrant.yml
 
-- name: "Add {{ ansible_ssh_user }} sudoers.d file"
+- name: "Add ansible_ssh_user sudoers.d file"
   ansible.builtin.lineinfile:
     path: "/etc/sudoers.d/{{ ansible_ssh_user }}"
     regexp: '^{{ ansible_ssh_user }}'
     line: "{{ ansible_ssh_user }}  ALL=(ALL)   NOPASSWD:ALL"
     owner: root
     group: root
-    mode: 0440
+    mode: "0440"
     create: true
     state: present
     validate: /usr/sbin/visudo -cf %s
 
-- name: "Create {{ ansible_ssh_user }} .ssh directory"
+- name: "Create ansible_user/.ssh directory"
   ansible.builtin.file:
     path: "/home/{{ ansible_ssh_user }}/.ssh"
     state: directory
     owner: "{{ ansible_ssh_user }}"
     group: "{{ ansible_ssh_user }}"
-    mode: 0700
+    mode: "0700"
 
 - name: "Add ssh public key(s)"
   ansible.posix.authorized_key:

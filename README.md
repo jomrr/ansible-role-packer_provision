@@ -28,11 +28,11 @@ None.
 
 ## License and Author
 
-- Author:: [jam82](https://github.com/jam82/)
-- Copyright:: 2020, [jam82](https://github.com/jam82/)
+- Author:: [jomrr](https://github.com/jomrr/)
+- Copyright:: 2020, [jomrr](https://github.com/jomrr/)
 
 Licensed under [MIT License](https://opensource.org/licenses/MIT).
-See [LICENSE](https://github.com/jam82/ansible-role-packer-provision/blob/master/LICENSE) file in repository.
+See [LICENSE](https://github.com/jomrr/ansible-role-packer-provision/blob/master/LICENSE) file in repository.
 
 ## References
 
