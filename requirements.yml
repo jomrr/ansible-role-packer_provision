@@ -1,0 +1,8 @@
+---
+# role: jomrr.packer_provision
+# file: meta/requirements.yml
+
+collections:
+  - {'name': 'community.general'}
+
+roles: []
