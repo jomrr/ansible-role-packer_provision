@@ -7,11 +7,14 @@
     name: "{{ packer_provision_packages | default([], true) }}"
     install_recommends: false
     update_cache: true
-    upgrade: dist
     state: present
   loop:
     - "{{ packer_provision_packages }}"
     - "{{ packer_provision_guest_extensions[packer_builder_type] }}"
+
+- name: "Role packer_provision | Upgrade packages"
+  ansible.builtin.apt:
+    upgrade: dist
 
 - name: "Role packer_provision | Remove and clean packages"
   ansible.builtin.apt:
