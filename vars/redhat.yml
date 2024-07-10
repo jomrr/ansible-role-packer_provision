@@ -1,0 +1,15 @@
+---
+# role: ansible-role-packer-provision
+# file: vars/RedHat.yml
+
+packer_provision_commands:
+  - "{{ ansible_pkg_mgr }} -y update"
+
+packer_provision_commands_clean:
+  - "{{ ansible_pkg_mgr }} -y autoremove"
+  - "{{ ansible_pkg_mgr }} -y clean all"
+
+packer_provision_packages:
+  - dnf-utils
+
+packer_provision_packages_clean: []

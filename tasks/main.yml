@@ -2,69 +2,39 @@
 # role: ansible-role-packer-provision
 # file: tasks/main.yml
 
-- name: "Set os_family dependent variables"
-  ansible.builtin.include_vars: '{{ ansible_os_family }}.yml'
+- name: "Role packer_provision | Set os_family dependent variables"
+  ansible.builtin.include_vars: '{{ ansible_os_family | lower }}.yml'
 
-- name: "Set distribution dependent variables"
+- name: "Role packer_provision | Set distribution dependent variables"
   ansible.builtin.include_vars: "{{ item }}"
   vars:
     params:
       files:
-        - '{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml'
-        - '{{ ansible_distribution }}.yml'
-        - '{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml'
+        - '{{ ansible_distribution | lower }}-{{ ansible_distribution_major_version }}.yml'
+        - '{{ ansible_distribution | lower }}.yml'
+        - '{{ ansible_os_family | lower }}-{{ ansible_distribution_major_version }}.yml'
       paths:
         - 'vars'
       skip: true
   loop: "{{ query('first_found', params, errors='ignore') }}"
 
-- name: "Run provision commands"
+- name: "Role packer_provision | Run provision commands"
   ansible.builtin.shell: "{{ item }}"
-  loop: "{{ packer_provision_commands | d([], true) }}"
+  loop: "{{ packer_provision_commands | default([], true) }}"
   changed_when: false
   tags: ['skip_ansible_lint']
 
-- name: "Install packages for ansible-role-packer-provision"
-  ansible.builtin.package:
-    name: "{{ packer_provision_packages }}"
-    state: present
+- name: "Role packer_provision | Include tasks for package manager"
+  ansible.builtin.include_tasks: "{{ ansible_pkg_mgr }}.yml"
 
-- name: "Include tasks for ansible_ssh_user"
+- name: "Role packer_provision | Include tasks for ansible_ssh_user"
   ansible.builtin.include_tasks: user.yml
 
-- name: "Include tasks for removing swap files"
+- name: "Role packer_provision | Include tasks for removing swap"
   ansible.builtin.include_tasks: swap.yml
 
-- name: "Configure SSH daemon"
-  ansible.builtin.lineinfile:
-    dest: /etc/ssh/sshd_config
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
-    state: present
-  loop:
-    - regexp: '^UseDNS'
-      line: 'UseDNS no'
-    - regexp: '^GSSAPIAuthentication'
-      line: 'GSSAPIAuthentication no'
-
-- name: "Remove unwanted packages"
-  ansible.builtin.package:
-    name: "{{ packer_provision_packages_clean | d([], true) }}"
-    state: absent
-
-- name: "Run cleanup commands"
+- name: "Role packer_provision | Run cleanup commands"
   ansible.builtin.shell: "{{ item }}"
-  loop: "{{ packer_provision_commands_clean | d([], true) }}"
+  loop: "{{ packer_provision_commands_clean | default([], true) }}"
   changed_when: false
   tags: ['skip_ansible_lint']
-
-- name: "Clear machine-id"
-  ansible.builtin.file:
-    path: /etc/machine-id
-    state: absent
-
-- name: "Touch machine-id"
-  ansible.builtin.file:
-    path: /etc/machine-id
-    state: touch
-    mode: '0644'

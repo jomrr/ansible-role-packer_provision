@@ -1,0 +1,28 @@
+---
+# role: jomrr.packer_provision
+# file: tasks/clean.yml
+
+- name: "Role packer_provision | Clear machine-id"
+  ansible.builtin.file:
+    path: /etc/machine-id
+    state: absent
+  loop:
+    - /var/lib/dbus/machine-id
+    - /etc/machine-id
+
+- name: "Role packer_provision | Touch machine-id"
+  ansible.builtin.file:
+    path: /etc/machine-id
+    state: touch
+    mode: "0644"
+
+- name: "Role packer_provision | Link machine-id"
+  ansible.builtin.file:
+    src: /etc/machine-id
+    dest: /var/lib/dbus/machine-id
+    state: link
+
+- name: "Role packer_provision | Remove udev rules"
+  ansible.builtin.file:
+    path: /etc/udev/rules.d/70-persistent-net.rules
+    state: absent

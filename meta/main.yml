@@ -1,5 +1,5 @@
 ---
-# repo: ansible-role-packer-provision
+# role: jomrr.packer_provision
 # file: meta/main.yml
 
 galaxy_info:
@@ -9,6 +9,6 @@ galaxy_info:
   company: ''
   issue_tracker_url: https://github.com/jomrr/ansible-role-packer-provision/issues
   license: MIT
-  min_ansible_version: '2.15'
+  min_ansible_version: '2.17'
   github_branch: main
   galaxy_tags: []

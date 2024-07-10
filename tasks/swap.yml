@@ -2,27 +2,31 @@
 # role: ansible-role-packer-provision
 # file: tasks/swap.yml
 
-- name: "Disable all swap files"
+- name: "Role packer_provision | Disable all swap files"
   ansible.builtin.command: "swapoff -a"
   changed_when: false
   when: ansible_swaptotal_mb > 0
 
-- name: "Delete swap file"
+- name: "Role packer_provision | Delete swap file"
   ansible.builtin.file:
-    path: "/swapfile"
+    path: "{{ item }}"
     state: absent
+  loop:
+    - "/swap.img"
+    - "/swapfile"
+    - "/var/swapfile"
 
-- name: "Remove swap entry from fstab"
+- name: "Role packer_provision | Remove swap entry from fstab"
   ansible.posix.mount:
     path: "{{ item.mount }}"
     state: absent
   loop: "{{ ansible_mounts }}"
   when: item.fstype == "swap"
 
-- name: "Set swappiness to zero"
+- name: "Role packer_provision | Set vm.swappiness to 1"
   ansible.posix.sysctl:
     name: vm.swappiness
-    value: '0'
+    value: '1'
     reload: true
     state: present
     sysctl_set: true

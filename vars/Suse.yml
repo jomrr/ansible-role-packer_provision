@@ -1,5 +1,0 @@
----
-# role: ansible-role-packer-provision
-# file: vars/Suse.yml
-
-packer_provision_packages: []

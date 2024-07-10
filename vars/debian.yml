@@ -1,0 +1,27 @@
+---
+# role: ansible-role-packer-provision
+# file: vars/Debian.yml
+
+packer_provision_commands: []
+
+packer_provision_commands_clean: []
+
+packer_provision_packages: []
+
+packer_provision_packages_clean:
+  - '.*-dev$'
+  - apport
+  - mdadm
+  - open-iscsi
+  - pciutils
+  - perl
+  - ppp
+  - pppconfig
+  - pppoeconf
+  - libx11-data
+  - xauth
+  - libxmuu1
+  - libxcb1
+  - libx11-6
+  - libxext6
+  - linux-source

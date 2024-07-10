@@ -1,0 +1,18 @@
+---
+# role: jomrr.packer_provision
+# file: tasks/apt.yml
+
+- name: "Role packer_provision | Install packages"
+  ansible.builtin.apt:
+    name: "{{ packer_provision_packages | default([], true) }}"
+    install_recommends: false
+    state: present
+
+- name: "Role packer_provision | Remove and clean packages"
+  ansible.builtin.apt:
+    name: "{{ packer_provision_packages_clean | default([], true) }}"
+    autoclean: true
+    autoremove: true
+    clean: true
+    purge: true
+    state: absent
