@@ -6,6 +6,9 @@ packer_provision_commands: []
 
 packer_provision_commands_clean: []
 
+packer_provision_install_logs:
+  - /var/log/install
+
 packer_provision_packages: []
 
 packer_provision_packages_clean:

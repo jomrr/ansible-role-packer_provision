@@ -26,3 +26,9 @@
   ansible.builtin.file:
     path: /etc/udev/rules.d/70-persistent-net.rules
     state: absent
+
+- name: "Role packer_provision | Remove installer logs"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop: "{{ packer_provision_install_logs }}"
