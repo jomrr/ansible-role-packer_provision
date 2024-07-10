@@ -6,7 +6,7 @@
   ansible.builtin.lineinfile:
     path: "/etc/sudoers.d/{{ ansible_ssh_user }}"
     regexp: '^{{ ansible_ssh_user }}'
-    line: "{{ ansible_ssh_user }}  ALL=(ALL)   NOPASSWD:ALL"
+    line: "{{ ansible_ssh_user }}  ALL=(ALL:ALL) ALL"
     owner: root
     group: root
     mode: "0440"
