@@ -2,11 +2,15 @@
 # role: jomrr.packer_provision
 # file: tasks/apt.yml
 
-- name: "Role packer_provision | Install packages"
+- name: "Role packer_provision | Install packages and builder-specific guest extensions"
   ansible.builtin.apt:
     name: "{{ packer_provision_packages | default([], true) }}"
     install_recommends: false
+    update_cache: true
     state: present
+  loop:
+    - "{{ packer_provision_packages }}"
+    - "{{ packer_provision_guest_extensions[packer_builder_type] }}"
 
 - name: "Role packer_provision | Remove and clean packages"
   ansible.builtin.apt:
