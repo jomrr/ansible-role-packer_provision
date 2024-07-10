@@ -18,6 +18,11 @@
       skip: true
   loop: "{{ query('first_found', params, errors='ignore') }}"
 
+- name: "Role packer_provision | Install builder-specific guest extensions"
+  ansible.builtin.package:
+    name: "{{ packer_provision_guest_extensions[packer_builder_type] }}"
+    state: present
+
 - name: "Role packer_provision | Run provision commands"
   ansible.builtin.shell: "{{ item }}"
   loop: "{{ packer_provision_commands | default([], true) }}"

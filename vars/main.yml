@@ -1,0 +1,8 @@
+---
+# role: jomrr.packer_provision
+# file: vars/main.yml
+
+packer_provision_guest_extensions:
+  "qemu": "qemu-guest-agent"
+  "proxmox-iso": "qemu-guest-agent"
+  "vsphere-iso": "open-vm-tools"
