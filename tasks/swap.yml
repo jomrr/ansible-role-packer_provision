@@ -7,6 +7,14 @@
   changed_when: false
   when: ansible_swaptotal_mb > 0
 
+- name: "Mask systemd swap unit"
+  ansible.builtin.systemd_service:
+    name: swap.img.swap
+    state: stopped
+    enabled: false
+    masked: true
+  when: ansible_service_mgr == "systemd"
+
 - name: "Role packer_provision | Delete swap file"
   ansible.builtin.file:
     path: "{{ item }}"
