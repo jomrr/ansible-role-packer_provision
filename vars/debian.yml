@@ -10,6 +10,11 @@ packer_provision_packages: []
 
 packer_provision_packages_clean:
   - apport
+  - libxmuu1
+  - libxcb1
+  - libx11-6
+  - libxext6
+  - linux-source
   - mdadm
   - open-iscsi
   - pciutils
@@ -19,8 +24,3 @@ packer_provision_packages_clean:
   - pppoeconf
   - libx11-data
   - xauth
-  - libxmuu1
-  - libxcb1
-  - libx11-6
-  - libxext6
-  - linux-source
