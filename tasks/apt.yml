@@ -7,6 +7,7 @@
     name: "{{ packer_provision_packages | default([], true) }}"
     install_recommends: false
     update_cache: true
+    upgrade: dist
     state: present
   loop:
     - "{{ packer_provision_packages }}"
