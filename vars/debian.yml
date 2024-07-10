@@ -4,12 +4,12 @@
 
 packer_provision_commands: []
 
-packer_provision_commands_clean: []
+packer_provision_commands_clean:
+  - "{{ ansible_pkg_mgr }}-get -y remove '.*-dev$'"
 
 packer_provision_packages: []
 
 packer_provision_packages_clean:
-  - '.*-dev$'
   - apport
   - mdadm
   - open-iscsi
