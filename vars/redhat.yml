@@ -1,6 +1,6 @@
 ---
 # role: ansible-role-packer-provision
-# file: vars/RedHat.yml
+# file: vars/redhat.yml
 
 packer_provision_commands: []
 

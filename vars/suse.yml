@@ -1,6 +1,6 @@
 ---
 # role: ansible-role-packer-provision
-# file: vars/Suse.yml
+# file: vars/suse.yml
 
 packer_provision_commands: []
 

@@ -1,6 +1,6 @@
 ---
 # role: ansible-role-packer-provision
-# file: vars/Archlinux.yml
+# file: vars/archlinux.yml
 
 packer_provision_commands: []
 

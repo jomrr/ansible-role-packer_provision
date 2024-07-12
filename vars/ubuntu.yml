@@ -1,6 +1,6 @@
 ---
 # role: ansible-role-packer-provision
-# file: vars/debian.yml
+# file: vars/ubuntu.yml
 
 packer_provision_commands: []
 
@@ -15,6 +15,7 @@ packer_provision_packages_clean:
   - apport
   - libxmuu1
   - libxcb1
+  - libx11-data
   - libx11-6
   - libxext6
   - linux-source
@@ -24,5 +25,5 @@ packer_provision_packages_clean:
   - ppp
   - pppconfig
   - pppoeconf
-  - libx11-data
+  - snapd
   - xauth
