@@ -20,7 +20,6 @@ packer_provision_packages_clean:
   - linux-source
   - mdadm
   - open-iscsi
-  - pciutils
   - perl
   - ppp
   - pppconfig
