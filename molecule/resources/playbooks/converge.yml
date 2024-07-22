@@ -1,15 +1,9 @@
 ---
-# role: ansible-role-packer-provision
+# role: jomrr.packer_provision
 # file: molecule/resources/playbooks/converge.yml
 
-- name: Converge
+- name: "PLAYBOOK | Converge"
   hosts: all
-  become: true
-  pre_tasks:
-    - name: "Include variables to converge playbook"
-      ansible.builtin.include_vars: vars.yml
+  gather_facts: true
   roles:
-    # if you want to enable requirements put them in requirements.yml
-    # and add here
-    # - role: common
-    - role: ansible-role-packer-provision
+    - role: "{{ lookup('ansible.builtin.env', 'MOLECULE_PROJECT_DIRECTORY') }}"

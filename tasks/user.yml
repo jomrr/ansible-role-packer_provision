@@ -4,9 +4,9 @@
 
 - name: "Role packer_provision | Add ansible_ssh_user sudoers.d file"
   ansible.builtin.lineinfile:
-    path: "/etc/sudoers.d/{{ ansible_ssh_user }}"
-    regexp: '^{{ ansible_ssh_user }}'
-    line: "{{ ansible_ssh_user }}  ALL=(ALL:ALL) ALL"
+    path: "/etc/sudoers.d/{{ ansible_ssh_user | default('root') }}"
+    regexp: "^{{ ansible_ssh_user | default('root') }}"
+    line: "{{ ansible_ssh_user | default('root') }}  ALL=(ALL:ALL) ALL"
     owner: root
     group: root
     mode: "0440"
@@ -16,15 +16,15 @@
 
 - name: "Role packer_provision | Create ansible_user/.ssh directory"
   ansible.builtin.file:
-    path: "/home/{{ ansible_ssh_user }}/.ssh"
+    path: "/home/{{ ansible_ssh_user | default('root') }}/.ssh"
     state: directory
-    owner: "{{ ansible_ssh_user }}"
-    group: "{{ ansible_ssh_user }}"
+    owner: "{{ ansible_ssh_user | default('root') }}"
+    group: "{{ ansible_ssh_user | default('root') }}"
     mode: "0700"
 
 - name: "Role packer_provision | Add ssh public key(s)"
   ansible.posix.authorized_key:
-    user: "{{ ansible_ssh_user }}"
+    user: "{{ ansible_ssh_user | default('root') }}"
     key: "{{ item }}"
     state: present
     exclusive: false

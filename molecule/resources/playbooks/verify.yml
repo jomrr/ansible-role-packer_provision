@@ -1,0 +1,12 @@
+# role: jomrr.packer_provision
+# file: molecule/resources/playbooks/verify.yml
+
+- name: "PLAYBOOK | Verify"
+  hosts: all
+  gather_facts: true
+  tasks:
+    - name: "Assert that swap is disabled"
+      ansible.builtin.assert:
+        that: "ansible_swaptotal_mb == 0"
+        fail_msg: "Oh-no! Swap is enabled :("
+        success_msg: "Yee-ha! Swap is disabled :)"

@@ -7,13 +7,17 @@
   changed_when: false
   when: ansible_swaptotal_mb > 0
 
+- name: "Role packer_provision | Populate service facts"
+  ansible.builtin.service_facts:
+
 - name: "Mask systemd swap unit"
   ansible.builtin.systemd_service:
-    name: swap.img.swap
+    name: "{{ item }}"
     state: stopped
     enabled: false
     masked: true
-  when: ansible_service_mgr == "systemd"
+  loop: "{{ ansible_facts.services | dict2items | map(attribute='key') | list }}"
+  when: ansible_service_mgr == "systemd" and '.swap' in item
 
 - name: "Role packer_provision | Delete swap file"
   ansible.builtin.file:
@@ -39,3 +43,4 @@
     state: present
     sysctl_set: true
     sysctl_file: "/etc/sysctl.d/99-swappiness.conf"
+  when: ansible_virtualization_type not in ['container', 'docker', 'lxc', 'openvz', 'podman']

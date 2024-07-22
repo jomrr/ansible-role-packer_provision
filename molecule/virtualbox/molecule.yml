@@ -9,7 +9,7 @@ dependency:
 driver:
   name: vagrant
   provider:
-    name: virtualbox
+    name: libvirt
 lint: |
   set -e
   yamllint .
@@ -43,8 +43,8 @@ provisioner:
   name: ansible
   log: true
   playbooks:
-    prepare: ../resources/playbooks/prepare.yml
     converge: ../resources/playbooks/converge.yml
+    verify: ../resources/playbooks/verify.yml
   inventory:
     group_vars:
       all:

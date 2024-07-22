@@ -1,0 +1,23 @@
+---
+# role: jomrr.packer_provision
+# file: tasks/dnf.yml
+
+- name: "Role packer_provision | Remove and clean packages"
+  ansible.builtin.dnf:
+    name: "{{ packer_provision_packages_clean | default([], true) }}"
+    autoremove: true
+    state: absent
+
+- name: "Role packer_provision | Install packages and builder-specific guest extensions"
+  ansible.builtin.dnf:
+    name: "{{ packer_provision_packages | default([], true) }}"
+    install_weak_deps: false
+    state: present
+  loop:
+    - "{{ packer_provision_packages }}"
+    - "{{ packer_provision_guest_extensions[packer_builder_type | default('qemu')] }}"
+
+- name: "Role packer_provision | Upgrade packages"  # noqa package-latest
+  ansible.builtin.dnf:
+    name: "*"
+    state: latest
